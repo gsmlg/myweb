@@ -13,7 +13,7 @@ function(app) {
 
     index: function() {
         app.useLayout('index');
-        console.log('load index!')
+        console.log('load index!');
     }
   });
 
