@@ -18,7 +18,7 @@ var jam = {
         {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
-            "main": "./lodash.js"
+            "main": "lodash.js"
         },
         {
             "name": "underscore",
@@ -70,7 +70,7 @@ if (typeof require !== "undefined" && require.config) {
         {
             "name": "lodash",
             "location": "../vendor/jam/lodash",
-            "main": "./lodash.js"
+            "main": "lodash.js"
         },
         {
             "name": "underscore",
@@ -102,54 +102,54 @@ if (typeof require !== "undefined" && require.config) {
 }
 else {
     var require = {
-    "packages": [
-        {
-            "name": "backbone",
-            "location": "../vendor/jam/backbone",
-            "main": "backbone.js"
-        },
-        {
-            "name": "backbone.layoutmanager",
-            "location": "../vendor/jam/backbone.layoutmanager",
-            "main": "backbone.layoutmanager.js"
-        },
-        {
-            "name": "jquery",
-            "location": "../vendor/jam/jquery",
-            "main": "dist/jquery.js"
-        },
-        {
-            "name": "lodash",
-            "location": "../vendor/jam/lodash",
-            "main": "./lodash.js"
-        },
-        {
-            "name": "underscore",
-            "location": "../vendor/jam/underscore",
-            "main": "underscore.js"
+        "packages": [
+            {
+                "name": "backbone",
+                "location": "../vendor/jam/backbone",
+                "main": "backbone.js"
+            },
+            {
+                "name": "backbone.layoutmanager",
+                "location": "../vendor/jam/backbone.layoutmanager",
+                "main": "backbone.layoutmanager.js"
+            },
+            {
+                "name": "jquery",
+                "location": "../vendor/jam/jquery",
+                "main": "dist/jquery.js"
+            },
+            {
+                "name": "lodash",
+                "location": "../vendor/jam/lodash",
+                "main": "lodash.js"
+            },
+            {
+                "name": "underscore",
+                "location": "../vendor/jam/underscore",
+                "main": "underscore.js"
+            }
+        ],
+        "shim": {
+            "backbone": {
+                "deps": [
+                    "underscore",
+                    "jquery"
+                ],
+                "exports": "Backbone"
+            },
+            "backbone.layoutmanager": {
+                "deps": [
+                    "jquery",
+                    "backbone",
+                    "underscore"
+                ],
+                "exports": "Backbone.Layout"
+            },
+            "underscore": {
+                "exports": "_"
+            }
         }
-    ],
-    "shim": {
-        "backbone": {
-            "deps": [
-                "underscore",
-                "jquery"
-            ],
-            "exports": "Backbone"
-        },
-        "backbone.layoutmanager": {
-            "deps": [
-                "jquery",
-                "backbone",
-                "underscore"
-            ],
-            "exports": "Backbone.Layout"
-        },
-        "underscore": {
-            "exports": "_"
-        }
-    }
-};
+    };
 }
 
 if (typeof exports !== "undefined" && typeof module !== "undefined") {
