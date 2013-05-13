@@ -76,14 +76,7 @@ function(LayoutManager) {
         }, options));
       }
 
-        // Insert into the DOM.
-        $("#main").empty().append(this.layout.el);
-
-        // Render the layout.
-        this.layout.render();
-
-
-        // Cache the reference.
+      // Cache the reference.
       return this.layout;
     }
   }, Backbone.Events);

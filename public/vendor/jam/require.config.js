@@ -24,6 +24,11 @@ var jam = {
             "name": "underscore",
             "location": "../vendor/jam/underscore",
             "main": "underscore.js"
+        },
+        {
+            "name": "text",
+            "location": "../vendor/js/libs",
+            "main": "text.js"
         }
     ],
     "version": "0.2.15",
@@ -76,6 +81,11 @@ if (typeof require !== "undefined" && require.config) {
             "name": "underscore",
             "location": "../vendor/jam/underscore",
             "main": "underscore.js"
+        },
+        {
+            "name": "text",
+            "location": "../vendor/js/libs",
+            "main": "text.js"
         }
     ],
     "shim": {
@@ -127,6 +137,11 @@ else {
                 "name": "underscore",
                 "location": "../vendor/jam/underscore",
                 "main": "underscore.js"
+            },
+            {
+                "name": "text",
+                "location": "../vendor/js/libs",
+                "main": "text.js"
             }
         ],
         "shim": {
