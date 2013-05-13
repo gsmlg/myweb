@@ -1728,6 +1728,9 @@ License:	CC BY-SA 3.0 -- http://creativecommons.org/licenses/by-sa/3.0/
 .metrouicss .icon-comments-5:before {
   content: "\e03a";
 }
+.metrouicss .icon-user{
+  padding:4px;
+}
 .metrouicss .icon-user:before {
   content: "\e03b";
 }
