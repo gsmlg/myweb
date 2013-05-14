@@ -7,13 +7,14 @@ function(app) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
-      routes: {
-	  "": "index",
-	  '!login': 'login',
-	  '!registry': 'registry'
+      'routes' : {
+          "": "index",
+          'login': 'login',
+          'registry': 'registry'
       },
 
       index: function() {
+          app.layout = null;
           require(['modules/views/header','modules/views/content'],function(head,content){
               app.useLayout('index',{
                   views: {
@@ -30,11 +31,12 @@ function(app) {
       },
       
       login: function(){
-	  app.userLayout('login');
+        app.layout = null;
+	    app.useLayout('login').render();
       },
 
       registry: function() {
-	  app.userLayout('registry');
+	    app.useLayout('registry').render();
       }
 
   });

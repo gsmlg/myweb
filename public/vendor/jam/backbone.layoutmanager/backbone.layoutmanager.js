@@ -1,5 +1,5 @@
 /*!
- * backbone.layoutmanager.js v0.8.6
+ * backbone.layoutmanager.js v0.8.7
  * Copyright 2013, Tim Branyen (@tbranyen)
  * backbone.layoutmanager.js may be freely distributed under the MIT license.
  */
@@ -91,25 +91,29 @@ var LayoutManager = Backbone.View.extend({
   // If the filter function is omitted it will return all subviews.  If a
   // String is passed instead, it will return the Views for that selector.
   getViews: function(fn) {
-    // Generate an array of all top level (no deeply nested) Views flattened.
-    var views = _.chain(this.views).map(function(view) {
-      return _.isArray(view) ? view : [view];
-    }, this).flatten().value();
+    var views;
 
     // If the filter argument is a String, then return a chained Version of the
-    // elements.
+    // elements. The value at the specified filter may be undefined, a single
+    // view, or an array of views; in all cases, chain on a flat array.
     if (typeof fn === "string") {
-      return _.chain([this.views[fn]]).flatten();
+      views = this.views[fn] || [];
+      return _.chain([].concat(views));
     }
+
+    // Generate an array of all top level (no deeply nested) Views flattened.
+    views = _.chain(this.views).map(function(view) {
+      return _.isArray(view) ? view : [view];
+    }, this).flatten();
 
     // If the argument passed is an Object, then pass it to `_.where`.
     if (typeof fn === "object") {
-      return _.chain([_.where(views, fn)]).flatten();
+      return views.where(fn);
     }
 
     // If a filter function is provided, run it on all Views and return a
     // wrapped chain. Otherwise, simply return a wrapped chain of all Views.
-    return _.chain(typeof fn === "function" ? _.filter(views, fn) : views);
+    return typeof fn === "function" ? views.filter(fn) : views;
   },
 
   // Use this to remove Views, internally uses `getViews` so you can pass the
@@ -424,13 +428,20 @@ var LayoutManager = Backbone.View.extend({
       if (rendered) {
         // If no container is specified, we must replace the content.
         if (manager.noel) {
-          // Hold a reference to created element as replaceWith doesn't return new el.
+          // Trim off the whitespace, since the contents are passed into `$()`.
+          rendered = $.trim(rendered);
+
+          // Hold a reference to created element as replaceWith doesn't return
+          // new el.
           renderedEl = $(rendered);
 
-          // Remove extra root elements
+          // Remove extra root elements.
           root.$el.slice(1).remove();
 
+          // Swap out the View on the first top level element to avoid
+          // duplication.
           root.$el.replaceWith(renderedEl);
+
           // Don't delegate events here - we'll do that in resolve()
           root.setElement(renderedEl, false);
         } else {
@@ -602,6 +613,8 @@ var LayoutManager = Backbone.View.extend({
   cleanViews: function(views) {
     // Clear out all existing views.
     _.each(aConcat.call([], views), function(view) {
+      var cleanup;
+
       // Remove all custom events attached to this View.
       view.unbind();
 
@@ -620,7 +633,10 @@ var LayoutManager = Backbone.View.extend({
 
       // If a custom cleanup method was provided on the view, call it after
       // the initial cleanup is done
-      _.result(view.getAllOptions(), "cleanup");
+      cleanup = view.getAllOptions().cleanup;
+      if (_.isFunction(cleanup)) {
+        cleanup.call(view);
+      }
     });
   },
 
@@ -686,8 +702,8 @@ var LayoutManager = Backbone.View.extend({
       // Merge the View options into the View.
       _.extend(view, viewOptions);
 
-      // If the View still has the Backbone.View#render method, remove it.  Don't
-      // want it accidentally overriding the LM render.
+      // If the View still has the Backbone.View#render method, remove it.
+      // Don't want it accidentally overriding the LM render.
       if (viewOverrides.render === LayoutManager.prototype.render ||
         viewOverrides.render === Backbone.View.prototype.render) {
         delete viewOverrides.render;
@@ -729,8 +745,8 @@ var LayoutManager = Backbone.View.extend({
       // Ensure the render is always set correctly.
       view.render = LayoutManager.prototype.render;
 
-      // If the user provided their own remove override, use that instead of the
-      // default.
+      // If the user provided their own remove override, use that instead of
+      // the default.
       if (view.remove !== proto.remove) {
         view._remove = view.remove;
         view.remove = proto.remove;
@@ -766,7 +782,7 @@ var LayoutManager = Backbone.View.extend({
 // Convenience assignment to make creating Layout's slightly shorter.
 Backbone.Layout = LayoutManager;
 // Tack on the version.
-LayoutManager.VERSION = "0.8.6";
+LayoutManager.VERSION = "0.8.7";
 
 // Override _configure to provide extra functionality that is necessary in
 // order for the render function reference to be bound during initialize.

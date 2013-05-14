@@ -18,7 +18,7 @@ define(['backbone','jquery','lodash','text!templates/content.html',
 	    return this;
 	},
 	render: function(template,context){
-	    return $.trim(template(context));
+	    return template(context);
 	}
     });
     return ContentView;
