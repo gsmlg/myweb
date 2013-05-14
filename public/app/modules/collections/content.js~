@@ -1,0 +1,6 @@
+define(['backbone'], function(Backbone){
+    ListCollection = Backbone.Collection.extend({
+	model: ListItem
+    })
+    return ListCollection;
+})
