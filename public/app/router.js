@@ -24,7 +24,7 @@ function(app) {
                       // this.$el.appendTo('main');
                   }
               }).render();
-              console.log('load index!');
+
           });
 	  
       },

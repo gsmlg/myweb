@@ -21,7 +21,9 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
 	    'click .first-name':'getUser',
 	    'click .last-name':'getGroup',
 	    'keypress #search input':'goSearch',
-	    'click #search button': 'gotSearch'
+	    'click #search button': 'goSearch',
+	    'focus #search input': 'focusIn',
+	    'blur #search input': 'focusOut'
 	},
 	'render' : function(template, context){
             return template(context);
@@ -41,6 +43,12 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
 	    } else {
 		window.location.hash = '!user/group'
 	    }
+	},
+	'focusIn': function(){
+	    this.$el.find('#search').animate({width:'600px'},300);
+	},
+	'focusOut': function(){
+	    this.$el.find('#search').animate({width:'380px'},300);
 	}
     })
     return HeadView;
