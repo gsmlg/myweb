@@ -31,17 +31,17 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
 	'getUser': function(){
 	    var uid = this.model.toJSON().uid;
 	    if (!uid) {
-		window.location.hash = '!login';
+		Backbone.history.navigate('!login', true);
 	    } else {
-		window.location.hash = '!user';
+		Backbone.history.navigate('!user', true);
 	    }
 	},
 	'getGroup': function(){
 	    var uid = this.model.toJSON().uid;
 	    if (!uid) {
-		window.location.hash = '!registry'
+		Backbone.history.navigate('!registry', true);
 	    } else {
-		window.location.hash = '!user/group'
+		Backbone.history.navigate('!user/group', true);
 	    }
 	},
 	'focusIn': function(){
