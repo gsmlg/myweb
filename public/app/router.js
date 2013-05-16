@@ -9,12 +9,11 @@ function(app) {
   var Router = Backbone.Router.extend({
       'routes' : {
           "": "index",
-          'login': 'login',
-          'registry': 'registry'
+          '!login': 'login',
+          '!registry': 'registry'
       },
 
       index: function() {
-
           require(['modules/views/header','modules/views/content'],
 		  function(head,content){
 		      app.layout = null;
@@ -32,7 +31,7 @@ function(app) {
       },
 
       login: function(){
-	  require(['modules/views/loginShow','modules/views/loginForm'], 
+	  require(['modules/views/loginShow','modules/views/loginForm'],
 		  function(show, form){
 
 		      app.layout = null;
@@ -46,7 +45,7 @@ function(app) {
 			  }
 		      }).render();
 
-		  })
+		  });
       },
 
     registry: function() {
@@ -62,8 +61,7 @@ function(app) {
 		      this.views['#show'].afterRender();
 		    }
 		  }).render();
-		})
-
+		});
       }
 
   });
