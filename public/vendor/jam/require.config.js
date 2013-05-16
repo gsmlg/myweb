@@ -29,6 +29,11 @@ var jam = {
             "name": "text",
             "location": "../vendor/js/libs",
             "main": "text.js"
+        },
+        {
+            "name": "raphael",
+            "location": "../vendor/jam/raphael",
+            "main": "raphael"
         }
     ],
     "version": "0.2.15",
@@ -50,6 +55,9 @@ var jam = {
         },
         "underscore": {
             "exports": "_"
+        },
+        "raphael": {
+            "exports" : "Raphael"
         }
     }
 };
@@ -86,6 +94,11 @@ if (typeof require !== "undefined" && require.config) {
             "name": "text",
             "location": "../vendor/js/libs",
             "main": "text.js"
+        },
+        {
+            "name": "raphael",
+            "location": "../vendor/jam/raphael",
+            "main": "raphael"
         }
     ],
     "shim": {
@@ -106,6 +119,9 @@ if (typeof require !== "undefined" && require.config) {
         },
         "underscore": {
             "exports": "_"
+        },
+        "raphael": {
+            "exports" : "Raphael"
         }
     }
 });
@@ -142,6 +158,11 @@ else {
                 "name": "text",
                 "location": "../vendor/js/libs",
                 "main": "text.js"
+            },
+            {
+                "name": "raphael",
+                "location": "../vendor/jam/raphael",
+                "main": "raphael"
             }
         ],
         "shim": {
@@ -162,6 +183,9 @@ else {
             },
             "underscore": {
                 "exports": "_"
+            },
+            "raphael": {
+                "exports" : "Raphael"
             }
         }
     };

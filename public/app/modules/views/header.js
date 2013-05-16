@@ -28,28 +28,30 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
         'render' : function(template, context){
             return template(context);
         },
-        'getUser': function(){
-            var uid = this.model.toJSON().uid;
-            if (!uid) {
-                Backbone.history.navigate('login', true);
-            } else {
-                Backbone.history.navigate('user', true);
-            }
-        },
-        'getGroup': function(){
-            var uid = this.model.toJSON().uid;
-            if (!uid) {
-                Backbone.history.navigate('registry', true);
-            } else {
-                Backbone.history.navigate('user/group', true);
-            }
-        },
-        'focusIn': function(){
-            this.$el.find('#search').animate({width:'600px'},300);
-        },
-        'focusOut': function(){
-            this.$el.find('#search').animate({width:'380px'},300);
-        }
+
+	'getUser': function(){
+	    var uid = this.model.toJSON().uid;
+	    if (!uid) {
+		Backbone.history.navigate('!login', true);
+	    } else {
+		Backbone.history.navigate('!user', true);
+	    }
+	},
+	'getGroup': function(){
+	    var uid = this.model.toJSON().uid;
+	    if (!uid) {
+		Backbone.history.navigate('!registry', true);
+	    } else {
+		Backbone.history.navigate('!user/group', true);
+	    }
+	},
+	'focusIn': function(){
+	    this.$el.find('#search').animate({width:'600px'},300);
+	},
+	'focusOut': function(){
+	    this.$el.find('#search').animate({width:'380px'},300);
+	}
+
     })
     return HeadView;
 })

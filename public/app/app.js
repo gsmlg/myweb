@@ -22,7 +22,7 @@ function(LayoutManager) {
     // Allow LayoutManager to augment Backbone.View.prototype.
     manage: true,
 
-    prefix: "app/templates/",
+    prefix: "app/layout/",
 
     fetch: function(path) {
       // Concatenate the file extension.
@@ -72,7 +72,7 @@ function(LayoutManager) {
       } else {
         // Create a new Layout with options.
         this.layout = new Backbone.Layout(_.extend({
-          el: "main"
+          el: "div#main"
         }, options));
       }
 
