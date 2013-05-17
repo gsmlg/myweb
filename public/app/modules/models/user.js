@@ -10,10 +10,13 @@ define(['lodash','backbone'],function(_,Backbone){
         'url' : '/user',
         'idAttribute' : "uid",
         'defaults':{
-            'name':'用户登录',
+            'name':'登录',
             'group':'注册',
             'start': '我的主页'
-        }
+        },
+	'initialize': function(){
+	    this.fetch();
+	}
     });
     return UserModel;
 })

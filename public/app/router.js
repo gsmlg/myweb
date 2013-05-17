@@ -31,8 +31,8 @@ function(app) {
       },
       
       login: function(){
-	  require(['modules/views/loginShow','modules/views/loginForm'], 
-		  function(show, form){
+	  require(['modules/views/loginShow','modules/views/loginForm','app'], 
+		  function(show, form, app){
 		      
 		      app.layout = null;
 		      app.useLayout('login',{
@@ -49,8 +49,8 @@ function(app) {
       },
 
       registry: function() {
-	  require(['modules/views/loginShow','modules/views/registryForm'], 
-		  function(show, form){
+	  require(['modules/views/loginShow','modules/views/registryForm','app'], 
+		  function(show, form, app){
 		      
 		      app.layout = null;
 		      app.useLayout('login',{
