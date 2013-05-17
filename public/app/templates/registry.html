@@ -1,22 +1,30 @@
 <div>
-
+  <form action="/user/registry" method="post">
   <ul>
-
     <li>
       <h1>注册</h1>
     </li>
-    
-
-    
+    <span>注册邮箱</span>
+    <div class="input-control text">
+      <input type="email" />
+      <button class="btn-clear"></button>
+    </div>
     <li>
-      
-      
+      <span>密码</span>
+      <div class="input-control password">
+        <input type="password" />
+        <button class="btn-reveal"></button>
+      </div>
     </li>
-
-
-
+    <li>
+      <span>重复密码</span>
+      <div class="input-control password">
+        <input type="password" />
+        <button class="btn-reveal"></button>
+      </div>
+    </li>
+    <li>
+       <input type="submit" value="注册"/>
+    </li>
   </ul>
-
-
-
 </div>

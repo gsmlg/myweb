@@ -11,23 +11,24 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
         'template': _.template(tmpl),
         'initialize': function(){
             this.model = new user;
-	    this.listenTo(this.model,'change',this.render);
+	        this.listenTo(this.model,'change',this.render);
             return this;
         },
         serialize: function(){
             return this.model.toJSON();
         },
-	'events': {
-	    'click .first-name':'getUser',
-	    'click .last-name':'getGroup',
-	    'keypress #search input':'goSearch',
-	    'click #search button': 'goSearch',
-	    'focus #search input': 'focusIn',
-	    'blur #search input': 'focusOut'
-	},
-	'render' : function(template, context){
+        'events': {
+            'click .first-name':'getUser',
+            'click .last-name':'getGroup',
+            'keypress #search input':'goSearch',
+            'click #search button': 'goSearch',
+            'focus #search input': 'focusIn',
+            'blur #search input': 'focusOut'
+        },
+        'render' : function(template, context){
             return template(context);
         },
+
 	'getUser': function(){
 	    var uid = this.model.toJSON().uid;
 	    if (!uid) {
@@ -50,6 +51,7 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
 	'focusOut': function(){
 	    this.$el.find('#search').animate({width:'380px'},300);
 	}
+
     })
     return HeadView;
 })

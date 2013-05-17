@@ -31,9 +31,33 @@ function(app) {
       },
 
       login: function(){
+<<<<<<< HEAD
+	  require(['modules/views/loginShow','modules/views/loginForm','app'], 
+		  function(show, form, app){
+		      
+		      app.layout = null;
+		      app.useLayout('login',{
+			  'views': {
+			      '#show': new show,
+			      '#form': new form
+			  },
+			  'afterRender':function(){
+			      this.views['#show'].afterRender();
+			  }
+		      }).render();
+		      
+		  })
+      },
+
+      registry: function() {
+	  require(['modules/views/loginShow','modules/views/registryForm','app'], 
+		  function(show, form, app){
+		      
+=======
 	  require(['modules/views/loginShow','modules/views/loginForm'],
 		  function(show, form){
 
+>>>>>>> 45115d0216c99624e33b172f7f9d0a28cf7d02e8
 		      app.layout = null;
 		      app.useLayout('login',{
 			  'views': {
