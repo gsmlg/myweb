@@ -1,40 +1,59 @@
-define(['jquery','lodash','backbone','text!templates/registry.html','modules/views/modernGrowl'],
-       function($, _, Backbone, tmpl, growl){
-	   var RegistryView = Backbone.View.extend({
-	     template: _.template(tmpl),
-             events: {
-               'submit form': 'registry',
-               'click :button':'clearInput'
-             },
-             registry: function(event) {
-               event.preventDefault();
-               var formData = this.$el.find('form').serialize();
-               var self = this;
-               self.doing = self.doing || false;
-               if (self.doing) return;
-               self.doing = true;
-               self.$el.find(':submit').addClass('disabled');
-               setTimeout(function(){
-                   self.doing = false;
-                   self.$el.find(':submit').removeClass('disabled');
-               }, 5000);
-               $.ajax('/user/registry',{
-                 'type':'post',
-                 'data': formData,
-                 'success': function(xhr,data){
-                   alert('suc');
-                 },
-                 'error': function(xhr,err){
-                   new growl({level:'error',message:'网络连接出现问题，请稍后再尝试！'});
-                 },
-                 'dataType':'json'
-               });
-             },
-             clearInput: function(e){
-               $(e.target).prev().val('');
-               e.preventDefault();
-             }
-	   });
+define(['jquery','lodash','backbone','text!templates/registry.html',
+    'modules/views/modernGrowl','modules/models/user'],
+    function($, _, Backbone, tmpl, growl, user){
+        var RegistryView = Backbone.View.extend({
+            template: _.template(tmpl),
+            events: {
+                'submit form': 'registry',
+                'click :button':'clearInput'
+            },
+            registry: function(event) {
+                event.preventDefault();
+                var form = this.$el.find('form').serializeArray();
+                var formData = {};
+                _.each(form,function(v){formData[v.name] = v.value;});
+                if (formData.passwd !== formData.passwd2) {
+                    this.model.validationError = 'password diff'
+                    this.model.trigger('invalid');
+                    return;
+                }
+                var self = this;
+                self.doing = self.doing || false;
+                if (self.doing) return;
+                self.doing = true;
+                self.$el.find(':submit').addClass('disabled');
+                setTimeout(function(){
+                    self.doing = false;
+                    self.$el.find(':submit').removeClass('disabled');
+                }, 5000);
+                this.model.save(formData, {wait : true,url:this.model.registryUrl});
+            },
+            clearInput: function(e){
+                $(e.target).prev().val('');
+                e.preventDefault();
+            },
+            initialize: function() {
+                this.model = new user;
+                this.listenTo(this.model, 'sync',this.sync);
+                this.listenTo(this.model, 'success',this.success);
+                this.listenTo(this.model, 'invalid', this.invalidErr);
 
-	   return RegistryView;
-       });
+            },
+            success: function(model, xhr) {
+
+                new growl({level:'info', message: model.toJSON})
+            },
+            error: function( model, xhr ) {
+                arguments;
+                new growl({level:'error', message: this.model})
+            },
+            invalidErr: function(){
+                new growl({level:'warning',message: this.model.validationError});
+            }
+
+
+
+        });
+
+        return RegistryView;
+    });
