@@ -7,7 +7,11 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+    , mongoose = require('mongoose')
+    , gzippo = require('gzippo');
+
+var mongooseAuth = require('mongoose-auth');
 
 var app = express();
 
@@ -35,6 +39,8 @@ if ('development' == app.get('env')) {
 app.get('/user', user.current);
 
 app.post('/user/registry', user.registry)
+
+config = require('./config')(app, express, gzippo, mongoose)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
