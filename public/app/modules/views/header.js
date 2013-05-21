@@ -32,17 +32,17 @@ define(['lodash','backbone','jquery','modules/models/user','text!templates/head.
 	'getUser': function(){
 	    var uid = this.model.toJSON().uid;
 	    if (!uid) {
-		Backbone.history.navigate('!login', true);
+		Backbone.history.navigate('login', true);
 	    } else {
-		Backbone.history.navigate('!user', true);
+		Backbone.history.navigate('user', true);
 	    }
 	},
 	'getGroup': function(){
 	    var uid = this.model.toJSON().uid;
 	    if (!uid) {
-		Backbone.history.navigate('!registry', true);
+		Backbone.history.navigate('registry', true);
 	    } else {
-		Backbone.history.navigate('!user/group', true);
+		Backbone.history.navigate('user/group', true);
 	    }
 	},
 	'focusIn': function(){

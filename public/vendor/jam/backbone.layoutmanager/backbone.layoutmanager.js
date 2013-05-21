@@ -1,5 +1,5 @@
 /*!
- * backbone.layoutmanager.js v0.8.7
+ * backbone.layoutmanager.js v0.8.8
  * Copyright 2013, Tim Branyen (@tbranyen)
  * backbone.layoutmanager.js may be freely distributed under the MIT license.
  */
@@ -425,7 +425,7 @@ var LayoutManager = Backbone.View.extend({
     // the DOM element.
     function applyTemplate(rendered) {
       // Actually put the rendered contents into the element.
-      if (rendered) {
+      if (_.isString(rendered)) {
         // If no container is specified, we must replace the content.
         if (manager.noel) {
           // Trim off the whitespace, since the contents are passed into `$()`.
@@ -679,7 +679,8 @@ var LayoutManager = Backbone.View.extend({
         views: {},
 
         // Internal state object used to store whether or not a View has been
-        // taken over by layout manager and if it has been rendered into the DOM.
+        // taken over by layout manager and if it has been rendered into the
+        // DOM.
         __manager__: {},
 
         // Add the ability to remove all Views.
@@ -782,7 +783,7 @@ var LayoutManager = Backbone.View.extend({
 // Convenience assignment to make creating Layout's slightly shorter.
 Backbone.Layout = LayoutManager;
 // Tack on the version.
-LayoutManager.VERSION = "0.8.7";
+LayoutManager.VERSION = "0.8.8";
 
 // Override _configure to provide extra functionality that is necessary in
 // order for the render function reference to be bound during initialize.
