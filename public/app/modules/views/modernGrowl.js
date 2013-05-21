@@ -6,6 +6,9 @@ define(['jquery','lodash','backbone','text!templates/growl.html'],function($, _,
     'attribues':{'class':'fg-color-white'},
     'initialize': function(opt){
       this.setBox().render(opt).$el.appendTo('#growl').animate({'top': '40%'},opt.speed || 'fast');
+      if (opt && opt.callback) {
+          this.$el.find('button').on('click', opt.callback);
+      }
     },
     'render': function(opt){
       switch (opt.level) {

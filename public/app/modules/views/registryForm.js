@@ -1,5 +1,5 @@
 define(['jquery','lodash','backbone','text!templates/registry.html',
-    'modules/views/modernGrowl','modules/models/user'],
+    'modules/views/modernGrowl','modules/models/user-reg'],
     function($, _, Backbone, tmpl, growl, user){
         var RegistryView = Backbone.View.extend({
             template: _.template(tmpl),
@@ -12,8 +12,8 @@ define(['jquery','lodash','backbone','text!templates/registry.html',
                 var form = this.$el.find('form').serializeArray();
                 var formData = {};
                 _.each(form,function(v){formData[v.name] = v.value;});
-                if (formData.passwd !== formData.passwd2) {
-                    this.model.validationError = 'password diff'
+                if (formData.passwd !== formData['passwd-repeat']) {
+                    this.model.validationError = 'password diff';
                     this.model.trigger('invalid');
                     return;
                 }
@@ -25,8 +25,8 @@ define(['jquery','lodash','backbone','text!templates/registry.html',
                 setTimeout(function(){
                     self.doing = false;
                     self.$el.find(':submit').removeClass('disabled');
-                }, 5000);
-                this.model.save(formData, {wait : true,url:this.model.registryUrl});
+                }, 3000);
+                this.model.save(formData, {wait : true});
             },
             clearInput: function(e){
                 $(e.target).prev().val('');
@@ -34,21 +34,25 @@ define(['jquery','lodash','backbone','text!templates/registry.html',
             },
             initialize: function() {
                 this.model = new user;
-                this.listenTo(this.model, 'sync',this.sync);
+                this.listenTo(this.model, 'error.reg',this.error);
                 this.listenTo(this.model, 'success',this.success);
                 this.listenTo(this.model, 'invalid', this.invalidErr);
+                this.listenTo(this.model, 'gohome', this.gohome);
 
             },
             success: function(model, xhr) {
-
-                new growl({level:'info', message: model.toJSON})
+                new growl({level:'info', message: this.model.registryInfo, callback: function(){
+                    Backbone.history.navigate('!login', true);
+                }});
             },
             error: function( model, xhr ) {
-                arguments;
-                new growl({level:'error', message: this.model})
+                new growl({level:'error', message: this.model.registryInfo})
             },
-            invalidErr: function(){
+            invalidErr: function() {
                 new growl({level:'warning',message: this.model.validationError});
+            },
+            gohome: function(model, xhr) {
+                Backbone.history.navigate('/', true);
             }
 
 

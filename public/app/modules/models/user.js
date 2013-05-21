@@ -9,13 +9,12 @@ define(['lodash','backbone'],function(_,Backbone){
     var UserModel = Backbone.Model.extend({
         'url' : '/user',
         'registryUrl' : '/user/registry',
-        'idAttribute' : "uid",
+        'idAttribute' : "_id",
         'defaults':{
-            'name':'登录',
-            'group':'注册'
+            'email':'',
+            'group':''
         },
         'initialize': function(attr, opt){
-
             this.fetch();
         },
         validate: function(attr, options) {

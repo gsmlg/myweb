@@ -20,7 +20,7 @@ define(['backbone','jquery','lodash','raphael','text!templates/loginShow.html'],
                 this.attr({src : 'images/'+n+'.jpg'});
             });
 
-            img.animate(anim.repeat(Infinity));
+            img.animate(anim.repeat(100));
 
         }
 

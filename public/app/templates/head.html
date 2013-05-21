@@ -2,8 +2,8 @@
     <div class="user-login">
         <a href="javascript:void(0)">
             <div class="name fg-color-blueLight">
-                <span class="first-name"><%= name %></span>
-                <span class="last-name"><%= group%></span>
+                <span class="first-name"><%= name || email || '登录' %></span>
+                <span class="last-name"><%= group || '注册' %></span>
             </div>
             <div class="avatar">
                 <!--<img src="images/myface.jpg"/>-->
