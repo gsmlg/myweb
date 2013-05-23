@@ -21,10 +21,14 @@ var UserModel = mongoose.model('user', userSchema);
  */
 
 module.exports = function(app) {
-    app.all('/user', checkNotLogin);
+    // app.all('/user', checkNotLogin);
 
     app.get('/user', function(req, res) {
-        res.render('user', {title: 'user home'});
+        if (req.session && req.session.user) {
+            res.json(200, {email: req.session.user.email })
+        } else {
+            res.json(403,{'message': 'neet to login!', 'status': 0});
+        }
     });
 
     app.all('/user/registry', checkLogin);
@@ -67,7 +71,7 @@ module.exports = function(app) {
                 // return;
             }
             if (user) {
-                req.session.user = user;
+                req.session = {user: user};
                 res.json(200,{'message': '登录成功啦！', status: 1})
             }
                 
@@ -75,10 +79,11 @@ module.exports = function(app) {
     });
 
     function checkNotLogin(req, res, next) {
-        if (req.session.user) {
+        if (req.session && req.session.user) {
+            console.log(req.session.user);
             next();
         }
-        res.status(403).redirect('/');
+        res.json(403,{'message': 'neet to login!', 'status': 0});
     }
 
     function checkLogin(req, res, next) {

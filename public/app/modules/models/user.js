@@ -8,7 +8,6 @@
 define(['lodash','backbone'],function(_,Backbone){
     var UserModel = Backbone.Model.extend({
         'url' : '/user',
-        'registryUrl' : '/user/registry',
         'idAttribute' : "_id",
         'defaults':{
             'email':'',

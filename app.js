@@ -7,14 +7,14 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
     , settings = require('./settings')
-    , MongoStore = require('connect-mongodb')
+    , MongoStore = require('connect-mongo')(express)
     , mongoose = require('mongoose');
 
 // var mongooseAuth = require('mongoose-auth');
 
 var app = express();
 mongoose.connect('mongodb://localhost');
-mongoStore = new MongoStore({'url' : 'mongodb://localhost:27017/test'});
+// mongoStore = new MongoStore({'url' : 'mongodb://localhost:27017/test'});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,8 +30,11 @@ app.use(express.cookieParser( settings.cookie_secure_key ));
 app.use(express.session({
         key: 'NODESSID',
         secret:settings.cookie_secure_key,
-        store:mongoStore
+        store: new MongoStore({
+          'db': 'test'
+        })
     }));
+
 
 // set routing system
 app.use(app.router);
