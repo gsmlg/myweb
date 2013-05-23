@@ -1,10 +1,13 @@
 <div>
+<form action="/user/login" method="post" >
   <ul class="listview fluid">
     <li><h1>登录</h1></li>
-    
+
+	  <li><h2><a href="/" >回首页</a></h2></li>
+
     <li>
       <div class="input-control text">
-	<input type="text" />
+	<input name="email" type="email" />
 	<button class="btn-clear"></button>
       </div>
 
@@ -12,10 +15,10 @@
 
     <li>
       <div class="input-control password">
-	<input type="password" />
+	<input name="passwd" type="password" />
 	<button class="btn-reveal"></button>
       </div>
-  
+
     </li>
 
     <li>
@@ -23,9 +26,9 @@
     </li>
 
     <li>
-      <h4><a href="#!registry">注册</a></h4>
+      <h4><a href="/#!registry">注册</a></h4>
     </li>
   </ul>
-  
-    
+
+  </form>
 </div>

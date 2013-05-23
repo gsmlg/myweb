@@ -7,13 +7,14 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
     , settings = require('./settings')
-    , mongoose = require('mongoose')
-    , gzippo = require('gzippo');
+    , MongoStore = require('connect-mongodb')
+    , mongoose = require('mongoose');
 
 // var mongooseAuth = require('mongoose-auth');
 
 var app = express();
 mongoose.connect('mongodb://localhost');
+mongoStore = new MongoStore({'url' : 'mongodb://localhost:27017/test'});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -26,19 +27,11 @@ app.use(express.methodOverride());
 
 // set sessions control system
 app.use(express.cookieParser( settings.cookie_secure_key ));
-app.use(express.cookieSession({
-    secret: settings.cookie_secure_key,
-    cookie: { maxAge: 2628000000 },
-    store: new (require('express-sessions'))({
-        storage: 'mongodb',
-        instance: mongoose, // optional
-        host: 'localhost', // optional
-        port: 27017, // optional
-        db: 'users', // optional
-        collection: 'sessions', // optional
-        expire: 86400 // optional
-    })
-}));
+app.use(express.session({
+        key: 'NODESSID',
+        secret:settings.cookie_secure_key,
+        store:mongoStore
+    }));
 
 // set routing system
 app.use(app.router);
@@ -53,8 +46,7 @@ if ('development' == app.get('env')) {
 // config = require('./config')(app, express, gzippo, mongoose)
 
 // gzip text files
-app.use(gzippo.staticGzip(__dirname + '/public'));
-app.use(gzippo.compress());
+app.use(express.compress());
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

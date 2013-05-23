@@ -32,14 +32,16 @@ module.exports = function(app) {
     app.post('/user/registry', function(req, res) {
         if (! req.body.email || !req.body.passwd || !req.body['passwd-repeat']) {
             res.json(200, {message: '', status: 0});
+            // return;
         }
         if ( req.body.passwd !== req.body['passwd-repeat']) {
             res.json(200, {'message': 'password diff', 'status': 0});
+            // return;
         }
         var email = req.body.email, passwd = req.body.passwd;
 
-        UserModel.find({'email': email}, function(err, user) {
-            if (user.length) {
+        UserModel.findOne({'email': email}, function(err, user) {
+            if (user) {
                 res.json(200, {'message': 'user exists', 'status': 0});
             } else {
                 (new UserModel({'email': email, 'password': passwd})).save(function(err, user) {
@@ -49,7 +51,28 @@ module.exports = function(app) {
             }
         })
 
-    })
+    });
+
+    app.all('/user/login', checkLogin);
+    app.post('/user/login', function(req, res) {
+        if (! req.body.email || !req.body.passwd ) {
+            res.json(403, {message: 'go back', status: 0});
+            // return;
+        }
+        var email = req.body.email, passwd = req.body.passwd;
+        UserModel.findOne({email: email, password: passwd}, function(err, user) {
+            // console.log(user);
+            if (err){
+                res.json(500,{'message': 'db error',status: 0});
+                // return;
+            }
+            if (user) {
+                req.session.user = user;
+                res.json(200,{'message': '登录成功啦！', status: 1})
+            }
+                
+        })
+    });
 
     function checkNotLogin(req, res, next) {
         if (req.session.user) {
